@@ -14,7 +14,10 @@ const EventSchema = new Schema(
           type: Date,
           required: true,
         },
-        isWinner: false,
+        isWinner: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
     scheduledAt: {

@@ -47,8 +47,25 @@ const getUpcoming = async (req, res) => {
   }
 };
 
+const enter = async (req, res) => {
+  const { ticketId } = req.body;
+  const eventId = req.params.id;
+
+  try {
+    const { result, success, statusCode, message } = await eventService.enter({
+      ticketId,
+      eventId,
+    });
+
+    outputHandler(result, success, statusCode, message, res);
+  } catch (error) {
+    outputHandler(error, false, 400, "An error occured", res);
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getUpcoming,
+  enter,
 };
