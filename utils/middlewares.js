@@ -28,8 +28,24 @@ const outputHandler = (result, success, statusCode, message, res) => {
   });
 };
 
+/**
+ * Accepts data object and returns output
+ * @param {Object} result - The JSON data that is requested
+ * @param {Boolean} success - true if the query returns expected data
+ * @param {String} message - Description of the response
+ */
+const resultHandler = (result, success, statusCode, message) => {
+  return {
+    result: result,
+    success: success,
+    statusCode: statusCode,
+    message: message,
+  };
+};
+
 module.exports = {
   requestLogger,
   unknownEndpoint,
   outputHandler,
+  resultHandler,
 };

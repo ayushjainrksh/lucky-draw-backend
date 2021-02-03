@@ -12,7 +12,7 @@ require("dotenv").config();
 
 try {
   mongoose.connect(
-    process.env.MONGO_URI || "mongodb://localhost:27017/lucky-draw-db",
+    process.env.MONGO_URI || "mongodb://localhost:27017/lucky-draw",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
