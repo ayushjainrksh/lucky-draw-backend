@@ -3,10 +3,10 @@ const ticketService = require("../services/ticket");
 
 const getTicket = async (req, res) => {
   try {
-    // Get userId from request
+    // Get data from request
     const { userId, expiresIn } = req.body;
 
-    // Set expiry to 3 days
+    // Set expiry to requested days
     const expiresAt = new Date() + expiresIn;
 
     const {

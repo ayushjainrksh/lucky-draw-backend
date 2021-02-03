@@ -4,7 +4,6 @@ const { resultHandler } = require("../utils/middlewares");
 const create = async (body) => {
   try {
     const ticket = await Ticket.create(body);
-    console.log(ticket);
 
     if (ticket) {
       return resultHandler(ticket, true, 201, "Ticket created successfully!");
