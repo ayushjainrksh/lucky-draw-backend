@@ -22,4 +22,10 @@ router.get("/", eventController.getAll);
  */
 router.get("/upcoming", eventController.getUpcoming);
 
+/**
+ * POST /:id/enter
+ * Enter an event with id
+ */
+router.post("/:id/enter", eventController.enter);
+
 module.exports = router;
