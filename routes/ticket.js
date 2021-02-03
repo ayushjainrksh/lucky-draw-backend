@@ -5,6 +5,7 @@ const router = express.Router();
 const ticketController = require("../controllers/ticket");
 
 /**
+ * GET /
  * Generate a new raffle ticket
  */
 router.post("/", ticketController.getTicket);
