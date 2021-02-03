@@ -17,6 +17,38 @@ const create = async (req, res) => {
   }
 };
 
+const getAll = async (req, res) => {
+  try {
+    const {
+      result,
+      success,
+      statusCode,
+      message,
+    } = await eventService.getAll();
+
+    outputHandler(result, success, statusCode, message, res);
+  } catch (error) {
+    outputHandler(error, false, 400, "An error occured", res);
+  }
+};
+
+const getUpcoming = async (req, res) => {
+  try {
+    const {
+      result,
+      success,
+      statusCode,
+      message,
+    } = await eventService.getUpcoming();
+
+    outputHandler(result, success, statusCode, message, res);
+  } catch (error) {
+    outputHandler(error, false, 400, "An error occured", res);
+  }
+};
+
 module.exports = {
   create,
+  getAll,
+  getUpcoming,
 };
