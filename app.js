@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 
 app.use(middlewares.requestLogger);
 
+require("./routes")(app);
+
 app.use(middlewares.unknownEndpoint);
 
 module.exports = app;
