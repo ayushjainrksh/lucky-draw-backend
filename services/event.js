@@ -1,3 +1,5 @@
+const schedule = require("node-schedule");
+
 const Event = require("../models/event");
 const Ticket = require("../models/ticket");
 const { resultHandler } = require("../utils/middlewares");
@@ -7,6 +9,19 @@ const create = async (body) => {
     const event = await Event.create(body);
 
     if (event) {
+      // Schedule a lucky draw at the given time
+      const job = schedule.scheduleJob(body.scheduledAt, async () => {
+        const updatedEvent = await Event.findById(event.id);
+
+        // Get random participant and declare as winner of the lucky draw
+        updatedEvent["participants"][
+          Math.floor(Math.random() * updatedEvent["participants"].length)
+        ].isWinner = true;
+        updatedEvent.save();
+
+        console.log("Results announced!");
+      });
+
       return resultHandler(event, true, 201, "Event created successfully!");
     } else {
       return resultHandler({}, false, 400, "Event could not be created!");
