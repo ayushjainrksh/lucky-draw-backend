@@ -3,6 +3,10 @@ const { Schema } = mongoose;
 
 const EventSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
     participants: [
       {
         ticket: {

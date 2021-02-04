@@ -7,7 +7,8 @@ const getTicket = async (req, res) => {
     const { userId, expiresIn } = req.body;
 
     // Set expiry to requested days
-    const expiresAt = new Date() + expiresIn;
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + expiresIn);
 
     const {
       result,
