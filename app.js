@@ -10,6 +10,9 @@ const middlewares = require("./utils/middlewares");
 // Get env variables
 require("dotenv").config();
 
+/***************************/
+// Connect to the database
+
 try {
   mongoose.connect(
     process.env.MONGO_URI || "mongodb://localhost:27017/lucky-draw",
@@ -25,14 +28,20 @@ try {
   console.log("Error in connection to mongodb : ", error.message);
 }
 
+/***************************/
+// Use middlewares
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(middlewares.requestLogger);
 
+// APIs
 require("./routes")(app);
 
 app.use(middlewares.unknownEndpoint);
+
+/***************************/
 
 module.exports = app;
