@@ -23,7 +23,6 @@ const getAll = async () => {
       return resultHandler({}, false, 404, "No event found!");
     }
   } catch (error) {
-    console.log(error);
     return resultHandler(
       error,
       false,
@@ -53,9 +52,11 @@ const getRecent = async () => {
     if (events) {
       // Filter winners from the participants in events
       const results = events.map((event) => {
-        return event["participants"].filter(
+        event["participants"] = event["participants"].filter(
           (participant) => participant.isWinner
         );
+
+        return event;
       });
       return resultHandler(
         results,
@@ -67,7 +68,6 @@ const getRecent = async () => {
       return resultHandler({}, false, 404, "No event found in last 1 week!");
     }
   } catch (error) {
-    console.log(error);
     return resultHandler(
       error,
       false,

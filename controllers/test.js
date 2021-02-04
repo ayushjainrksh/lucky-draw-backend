@@ -1,4 +1,5 @@
 const { outputHandler } = require("../utils/middlewares");
+const User = require("../models/user");
 
 const ping = async (req, res) => {
   try {
@@ -8,6 +9,17 @@ const ping = async (req, res) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    outputHandler(users, true, 201, "Found users", res);
+  } catch (error) {
+    outputHandler(error, false, 400, "An error occured", res);
+  }
+};
+
 module.exports = {
   ping,
+  getUsers,
 };

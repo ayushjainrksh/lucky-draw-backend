@@ -63,7 +63,7 @@ const getUpcoming = async () => {
     // Sort in ascending order of event timing and get the first record
     const event = await Event.find(
       { scheduledAt: { $gt: new Date() } },
-      "scheduledAt prizes"
+      "name scheduledAt prizes"
     )
       .sort({ scheduledAt: 1 })
       .limit(1);
@@ -104,6 +104,11 @@ const enter = async (body) => {
         path: "participants",
         populate: { path: "ticket" },
       });
+
+      // Check if event has already ended
+      if (event.scheduledAt < new Date()) {
+        return resultHandler({}, false, 400, "Event has already ended!");
+      }
 
       // Check if user has already pariticipated with another ticket in the same event
       if (
