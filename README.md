@@ -1,12 +1,14 @@
 # Lucky draw backend
 
+**LiveURL**: http://ec2-65-1-84-14.ap-south-1.compute.amazonaws.com/api/v1/test/ping
+
 ## Problem statement
 
 Design & implement a service which allows users to get Lucky Draw Raffle tickets and use one lucky draw raffle ticket to participate in a lucky draw game.
 
 ### Requirements
 
-- Design an API which allows users to get the raffle tickets. This API can be consumed in a lot of ways like We can call this API after the user has placed an Order.
+- Design an API which allows users to get the raffle tickets. This API can be consumed in a lot of ways like we can call this API after the user has placed an Order.
 - Design an API which shows the next Lucky Draw Event timing & the corresponding reward. For example - Lucky Draw can run everyday at 8AM. Reward on say 10th Feb is Phone, 11th Feb is Washing Machine etc.
 - Design an API which allows users to participate in the game. Once a user has participated with a raffle ticket, they shouldn’t be able to participate again in the same event.
 - Design an API which lists all the winners of all the events in the last one week.
@@ -46,28 +48,38 @@ MONGO_URI = <add a mongodb atlas URI or you can leave it to use your local mongo
 #### `npm start`
 
 ## APIs
+Description of the RESTful APIs
 
-### Lucky Draw service
+### Test route
 
-To get raffle ticket
+To check if API is running
 
-- `GET /ticket`
+- `GET /test/ping`
 
-### Event schedule service
+### Ticket service
 
-Get event timings and prizes
+Generate a new raffle ticket
 
-- `GET /events`
-- `GET /events/upcoming`
+- `POST /ticket`
 
-### Participate service
+### Event service
 
-- `POST /enter`
+Get all events
+- `GET /event`
 
-### Winners service
+Get upcoming event
+- `GET /event/upcoming`
 
-- `GET /winners`
+Create a new event (Runs a cron job to pick the winner at the scheduled time and update the database)
+- `POST /event`
 
-### Declare winner service
+Enter an event with the raffle ticket
+- `POST /:id/enter`
 
-Runs a cron job to pick the winner and update the database.
+### Winner service
+
+Get all past winners
+- `GET /winner`
+
+Get all winners of events in the past week
+- `GET /winner/recent`
