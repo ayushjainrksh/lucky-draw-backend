@@ -2,6 +2,8 @@
 
 **LiveURL**: http://ec2-65-1-84-14.ap-south-1.compute.amazonaws.com/api/v1/test/ping
 
+To test out various APIs, use http://ec2-65-1-84-14.ap-south-1.compute.amazonaws.com/api/v1/ as base URL.
+
 ## Problem statement
 
 Design & implement a service which allows users to get Lucky Draw Raffle tickets and use one lucky draw raffle ticket to participate in a lucky draw game.
@@ -56,11 +58,21 @@ To check if API is running
 
 - `GET /test/ping`
 
+To get list of pre added users (for testing)
+
+- `GET /test/users`
+
 ### Ticket service
 
 Generate a new raffle ticket
 
 - `POST /ticket`
+```
+body: {
+    "userId": "601b9e7065f72ed748c8d98a",
+    "expiresIn": 2
+}
+```
 
 ### Event service
 
@@ -72,9 +84,24 @@ Get upcoming event
 
 Create a new event (Runs a cron job to pick the winner at the scheduled time and update the database)
 - `POST /event`
+```
+body: {
+    "name": "Wheel of fortune",
+    "scheduledAt": 1612427400000,
+    "prizes": [
+        "Amazon Kindle",
+        "Amazon alexa",
+    ]
+}
+```
 
 Enter an event with the raffle ticket
 - `POST /:id/enter`
+```
+body: {
+    "ticketId": "601bb02408e0026c61ad2838"
+}
+```
 
 ### Winner service
 
