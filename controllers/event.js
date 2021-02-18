@@ -49,12 +49,12 @@ const getUpcoming = async (req, res) => {
 };
 
 const enter = async (req, res) => {
-  const { ticketId } = req.body;
+  const { userId } = req.body;
   const eventId = req.params.id;
 
   try {
     const { result, success, statusCode, message } = await eventService.enter({
-      ticketId,
+      userId,
       eventId,
     });
 

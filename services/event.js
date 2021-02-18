@@ -85,9 +85,11 @@ const getUpcoming = async () => {
 
 const enter = async (body) => {
   try {
-    const ticket = await Ticket.findById(body.ticketId);
+    const ticket = await Ticket.find({ user: body.userId, isUsed: false })
+      .sort({ expiresIn: 1 })
+      .limit(1);
 
-    if (ticket) {
+    if (ticket.length) {
       const { user, isUsed } = ticket;
 
       if (isUsed) {
@@ -110,41 +112,32 @@ const enter = async (body) => {
         return resultHandler({}, false, 400, "Event has already ended!");
       }
 
-      // Check if user has already pariticipated with another ticket in the same event
-      if (
-        event["participants"].find(
-          (participant) => participant.ticket.user.toString() == user.toString()
-        )
-      ) {
-        return resultHandler(
-          {},
-          false,
-          405,
-          "Already participated! You cannot participate again."
-        );
-      } else {
-        // Update the participants' list
-        event["participants"].push({
-          ticket: body.ticketId,
-          participatedAt: new Date(),
-        });
-        await event.save();
+      // Update the participants' list
+      event["participants"].push({
+        ticket: ticket[0]._id,
+        participatedAt: new Date(),
+      });
+      await event.save();
 
-        // Update ticket status
-        ticket["isUsed"] = true;
-        await ticket.save();
+      // Update ticket status
+      ticket[0]["isUsed"] = true;
+      await ticket[0].save();
 
-        return resultHandler(event, true, 201, "Participated successfully!");
-      }
+      return resultHandler(event, true, 201, "Participated successfully!");
     } else {
-      return resultHandler({}, false, 400, "Invalid ticket!");
+      return resultHandler(
+        {},
+        false,
+        400,
+        "Get some tickets to enter the event!"
+      );
     }
   } catch (error) {
     return resultHandler(
       error,
       false,
       400,
-      "An error occured while creating the event!"
+      "An error occured while entering the event!"
     );
   }
 };
